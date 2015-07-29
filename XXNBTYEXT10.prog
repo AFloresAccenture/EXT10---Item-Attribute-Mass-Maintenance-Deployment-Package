@@ -1,0 +1,43 @@
+#!/bin/bash
+
+###########################################################################################################################
+##Script Name: XXNBTYEXT10.prog
+##Created By   : Albert John Flores
+##Date Created : 06-Jun-2015
+##Descriptions : UNIX script for EXT10 - Item Attribute Mass Maintenance
+##               
+##	Maintenance History:																							
+##																													
+##	Date			Issue#		Name						Remarks																
+##	-----------		------		--------------------		------------------------------------------------					
+##	06-Jun-2015					Albert John Flores			Initial Development	
+##	07-Jul-2015					Erwin Ramos				Added "eval" command to accomodate the $XXNBTY_TOP directory in the parameter. 	
+##
+###########################################################################################################################
+
+v_suffx=`date "+%Y%m%d_%H%M"`; 
+
+p_incoming="$5";
+
+p_archived="$6";
+
+###07-Jul-2015: ERR - Added "eval" command to accomodate the $XXNBTY_TOP directory in the parameter. 
+
+p_incoming=$(eval echo ${p_incoming})
+p_archived=$(eval echo ${p_archived})
+
+###07-Jul-2015: ERR - END. 
+
+
+
+cd $p_incoming
+
+#Archive the flat file.
+
+cp XXNBTY_ITEM_ATTRIBUTE.csv XXNBTY_ITEM_ATTRIBUTE_$v_suffx.csv
+
+mv XXNBTY_ITEM_ATTRIBUTE*.csv $p_archived
+
+exit 0
+
+

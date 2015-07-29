@@ -1,0 +1,59 @@
+The following are the steps to deploy the EXT10 - Item Attribute Mass Maintenance:
+
+1.Command to Upload sql files.
+
+-Move the xxnbty_msc_item_attribute_st.sql and xxnbty_vcp_grant_command_xxnbty_msc_item_attribute_st.sql to /u01/oracle/apps/apps_st/appl/xxnbty/12.0.0/admin/sql and execute the command.
+
+NOTE: You may use apps user and apps password. 
+sqlplus -s apps/PASSWORD
+@/u01/oracle/apps/apps_st/appl/xxnbty/12.0.0/admin/sql/xxnbty_msc_item_attribute_st.sql
+
+NOTE: You may use xxnbty user and xxnbty password. 
+sqlplus -s xxnbty/PASSWORD
+@/u01/oracle/apps/apps_st/appl/xxnbty/12.0.0/admin/sql/xxnbty_vcp_grant_command_xxnbty_msc_item_attribute_st.sql
+
+
+2.Command to upload packages
+-Open the UNIX application. 
+-Using WINSCP, move the XXNBTY_MSC_EXT10_ITEM_ATTR_PKG.pks and XXNBTY_MSC_EXT10_ITEM_ATTR_PKG.pkb in the 
+
+/u01/oracle/apps/apps_st/appl/xxnbty/12.0.0/admin/sql 
+-Execute the command below. 
+NOTE: You may use apps user and apps password. 
+sqlplus -s USERNAME/PASSWORD
+
+@/u01/oracle/apps/apps_st/appl/xxnbty/12.0.0/admin/sql/XXNBTY_MSC_EXT10_ITEM_ATTR_PKG.pks
+
+
+@/u01/oracle/apps/apps_st/appl/xxnbty/12.0.0/admin/sql/XXNBTY_MSC_EXT10_ITEM_ATTR_PKG.pkb
+
+
+4.Command to upload control file and unix prog
+-Move ext10.ctl and XXNBTYEXT10.prog to /u01/oracle/apps/apps_st/appl/xxnbty/12.0.0/bin 
+-Execute the command below. 
+
+cd /u01/oracle/apps/apps_st/appl/xxnbty/12.0.0/bin
+
+dos2unix XXNBTYEXT10.prog
+chmod 777 XXNBTYEXT10.prog
+ln -s /u01/oracle/apps/apps_st/appl/fnd/12.0.0/bin/fndcpesr XXNBTYEXT10
+
+
+4.Command to upload FND FILES
+NOTE: Please make sure to update the password. thanks!
+
+Move the LDT files to /u01/oracle/apps/apps_st/appl/xxnbty/12.0.0/admin/import and execute the following commands:
+
+cd /u01/oracle/apps/apps_st/appl/xxnbty/12.0.0/admin/import
+
+FNDLOAD apps/PASSWORD 0 Y UPLOAD $FND_TOP/patch/115/import/afcpprog.lct XXNBTY_EXT10_CP_a.ldt UPLOAD_MODE=REPLACE CUSTOM_MODE=FORCE
+
+FNDLOAD apps/PASSWORD 0 Y UPLOAD $FND_TOP/patch/115/import/afcpprog.lct XXNBTY_EXT10_CP_b.ldt UPLOAD_MODE=REPLACE CUSTOM_MODE=FORCE
+
+FNDLOAD apps/PASSWORD 0 Y UPLOAD $FND_TOP/patch/115/import/afcpprog.lct XXNBTY_EXT10_CP_c.ldt UPLOAD_MODE=REPLACE CUSTOM_MODE=FORCE
+
+FNDLOAD apps/PASSWORD 0 Y UPLOAD $FND_TOP/patch/115/import/afcprset.lct XXNBTY_EXT10_RS.ldt UPLOAD_MODE=REPLACE CUSTOM_MODE=FORCE
+
+FNDLOAD apps/PASSWORD 0 Y UPLOAD $FND_TOP/patch/115/import/afcprset.lct XXNBTY_EXT10_RL.ldt UPLOAD_MODE=REPLACE CUSTOM_MODE=FORCE
+
+FNDLOAD apps/PASSWORD 0 Y UPLOAD $FND_TOP/patch/115/import/afcpreqg.lct XXNBTY_EXT10_RG.ldt UPLOAD_MODE=REPLACE CUSTOM_MODE=FORCE	
